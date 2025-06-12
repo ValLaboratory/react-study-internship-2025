@@ -1,7 +1,15 @@
 :root {
+  box-sizing: border-box;
   font-family: "Zen Maru Gothic", sans-serif;
   font-weight: 400;
   font-style: normal;
+}
+
+h2 {
+  border-bottom: 1px solid lightskyblue;
+  max-width: 15em;
+  margin: 0.5em auto;
+  padding: 0.25em;
 }
 
 button {

@@ -8,7 +8,7 @@ export function Counter() {
   const [count, setCount] = useState(0);
 
   return (
-    <div className="counter">
+    <div className="counter outline-effect">
       <h2>1. カウンター</h2>
       <p>+1ボタンを押すと数値が増える様にしてみましょう。</p>
 

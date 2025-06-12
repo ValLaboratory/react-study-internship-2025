@@ -5,7 +5,7 @@ export function ShowApiResponse() {
   // useStateなどを使って変数を追加してみましょう
 
   return (
-    <div>
+    <div className="show-api-response outline-effect">
       <h2>2. APIレスポンス取得</h2>
       <p>APIからデータを取得し表示してみましょう。</p>
       <button
