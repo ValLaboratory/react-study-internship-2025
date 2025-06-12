@@ -38,6 +38,11 @@
         "editor.formatOnSave": true,
         "editor.defaultFormatter": "dprint.dprint"
       }
+    },
+    "codespaces": {
+      "openFiles": [
+        "src/App.tsx"
+      ]
     }
   }
 }
