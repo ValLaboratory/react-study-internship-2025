@@ -1,5 +1,5 @@
-import viteLogo from '/val_logo.png'
-import './App.css'
+import viteLogo from "/val_logo.png";
+import "./App.css";
 
 function App() {
   return (
@@ -8,7 +8,7 @@ function App() {
         <img src={viteLogo} className="logo" alt="Vite logo" />
       </div>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
