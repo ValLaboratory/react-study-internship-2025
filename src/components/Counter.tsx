@@ -11,7 +11,11 @@ export function Counter() {
     <div className="counter">
       <h2>1. カウンター</h2>
       <p>+1ボタンを押すと数値が増える様にしてみましょう。</p>
+
+      {/* カウント数値の表示 */}
       <span className="counter-result">{count}</span>
+
+      {/* カウントアップボタン */}
       <button
         onClick={() => {
           console.log("ボタンがクリックされました");
