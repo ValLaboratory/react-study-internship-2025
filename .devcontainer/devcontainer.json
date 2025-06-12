@@ -23,5 +23,21 @@
 	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
 	// "remoteUser": "root"
 	"postCreateCommand": "npm i",
-	"postStartCommand": "nohup bash -c 'npm run dev &'"
+	"postStartCommand": "nohup bash -c 'npm run dev &'",
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"dbaeumer.vscode-eslint",
+				"MS-CEINTL.vscode-language-pack-ja",
+				"dprint.dprint",
+				"usernamehw.errorlens",
+				"yoavbls.pretty-ts-errors",
+				"MS-vsliveshare.vsliveshare"
+			],
+			"settings": {
+				"editor.formatOnSave": true,
+				"editor.defaultFormatter": "dprint.dprint"
+			}
+		}
+	}
 }
