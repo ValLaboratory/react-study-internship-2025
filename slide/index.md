@@ -5,8 +5,6 @@ paginate: true
 size: 16:9
 ---
 
-TODO: 開発環境セットアップを入れる
-
 株式会社ヴァル研究所
 
 # TypeScript勉強会 for Internship
@@ -18,7 +16,7 @@ mixway team　鈴木 涼平
 
 # 講師自己紹介
 
-## 鈴木 涼平
+## ヴァル研究所 鈴木 涼平
 
 <div class="flex">
   <img src="./icon.png" class="icon">
@@ -669,6 +667,47 @@ const response = await fetch(url, {
 const data = await response.json();
 console.log(data); // 結果
 ```
+
+---
+
+# 〜第三章〜　TypeScriptの基礎
+
+---
+
+# の前に、みなさんの手元で演習環境を立ち上げたいと思います！
+
+---
+
+# 演習環境の立ち上げ
+
+- GitHub Codespaceというサービスを使います。
+  - https://github.com/ValLaboratory/react-study-internship-2025
+- 次の講義では、演習環境に事前に用意したコードを眺めながら進めていきます。
+- その後の演習パートでは、実際に演習環境でコードを書いてもらいます。
+
+- 開発環境の立ち上げは、演習パートの開始(18:05ごろ)までに終わっていれば大丈夫です！
+
+---
+
+# 演習環境の立ち上げ 1
+
+https://github.com/ValLaboratory/react-study-internship-2025
+
+- GitHubリポジトリを開き、画面右上の `Code▼` から、`Create codespaces on main` をクリックして、演習環境を立ち上げます。
+  - 演習環境は個人ごとに用意されています。
+
+![w:600](setup1.png)
+
+---
+
+# 演習環境の立ち上げ 2
+
+- ブラウザ上で演習環境が立ち上がります。
+- ヴァル研究所のロゴが見えたら起動完了です！
+  - 演習環境の立ち上げには5分程度かかります。
+  - 演習環境は30日後に自動で削除されます。
+
+![w:600](setup2.png)
 
 ---
 
