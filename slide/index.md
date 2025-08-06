@@ -9,6 +9,7 @@ TODO: 開発環境セットアップを入れる
 TODO: テスト問題の解説を入れる
 TODO: 講師自己紹介
 TODO: TypeScriptの基礎を入れる
+TODO: 今日描いたソースコードのDL方法
 
 株式会社ヴァル研究所
 
@@ -43,7 +44,8 @@ mixway team　鈴木 涼平
 - **導入** - 本日の内容について説明
 - **第一章** - Webページが表示されるしくみ
 - **第二章** - HTML, CSS, JavaScriptの基本文法
-- **第三章** - React
+- **第三章** - TypeScriptの基礎
+- **第四章** - React
 - **演習問題** - 外部APIからデータを取得しReactで表示してみよう
 
 ---
@@ -60,7 +62,8 @@ mixway team　鈴木 涼平
 
   - **第一章** - Webページが表示されるしくみ
   - **第二章** - HTML, CSS, JavaScriptの基本文法
-  - **第三章** - React
+  - **第三章** - TypeScriptの基礎
+  - **第四章** - React
 
 - 17:45〜 質疑応答
 - 17:55〜 休憩
@@ -163,7 +166,7 @@ Web APIを使ったことがある or Web APIの使い方を学んだことが�
 - **DNS**（Domain Name System）でIPアドレスに変換
 
 ```
-google.com → DNS → 172.217.175.14
+google.com → DNS → 172.217.175.238
 ```
 
 ---
@@ -224,6 +227,30 @@ google.com → DNS → 172.217.175.14
 
 **役割：** Webページの構造と内容を定義
 
+- タグ `<xxx></xxx>` でWebページの構造を記述します
+
+```
+<div>テキスト</div>
+  │    │      └─ 終了タグ
+  │    └─ 内容
+  └─ 開始タグ
+```
+
+- タグは入れ子にできます
+
+```
+<div>
+  <h1>見出し</h1>
+  <p>段落のテキスト</p>
+</div>
+```
+
+---
+
+## HTML（HyperText Markup Language）
+
+HTMLの例
+
 ```html
 <!DOCTYPE html>
 <html>
@@ -239,6 +266,32 @@ google.com → DNS → 172.217.175.14
 ```
 
 **主要タグ：** `<div>`, `<p>`, `<h1>〜<h6>`, `<button>`, `<input>`, `<img>`
+
+---
+
+# 主要なHTMLタグ
+
+<div class="flex">
+<div class="flex-grow">
+
+```
+<h1>見出し1</h1>
+<h2>見出し2</h2>
+<h3>見出し3</h3>
+<p>段落のテキスト</p>
+```
+
+</div>
+
+<p>→</p>
+
+<div class="flex-grow">
+<h1>見出し1</h1>
+<h2>見出し2</h2>
+<h3>見出し3</h3>
+<p>段落のテキスト</p>
+</div>
+</div>
 
 ---
 
@@ -269,14 +322,36 @@ google.com → DNS → 172.217.175.14
 
 ### テキスト関連
 
-```html
+<div class="flex">
+<div class="flex-grow">
+
+```
 <h1>大見出し</h1>
 <h2>中見出し</h2>
 <p>段落のテキスト</p>
 <span>通常のテキスト</span> <strong>強調</strong> <em>斜体</em>
 ```
 
+</div>
+
+<p>→</p>
+
+<div class="flex-grow">
+<h1>大見出し</h1>
+<h2>中見出し</h2>
+<p>段落のテキスト</p>
+<span>通常のテキスト</span> <strong>強調</strong> <em>斜体</em>
+</div>
+</div>
+
+---
+
+## よく使うHTMLタグ
+
 ### リスト
+
+<div class="flex">
+<div class="flex-grow">
 
 ```html
 <ul>  <!-- 順序なしリスト -->
@@ -288,6 +363,22 @@ google.com → DNS → 172.217.175.14
     <li>手順2</li>
 </ol>
 ```
+
+</div>
+
+<p>→</p>
+
+<div class="flex-grow">
+<ul>  <!-- 順序なしリスト -->
+    <li>項目1</li>
+    <li>項目2</li>
+</ul>
+<ol>  <!-- 順序ありリスト -->
+    <li>手順1</li>
+    <li>手順2</li>
+</ol>
+</div>
+</div>
 
 ---
 
@@ -318,20 +409,53 @@ google.com → DNS → 172.217.175.14
 
 **役割：** HTMLの見た目・デザインを制御
 
+### CSSでできること
+
+- **色・フォント** - テキストの色やフォントサイズを変更
+- **レイアウト** - 配置を横並びにするなど
+- **アニメーション** - 要素の動きをつける
+- **レスポンシブデザイン** - 画面サイズに応じてスタイルを変える
+
+---
+
+## CSS（Cascading Style Sheets）の例
+
+`article`クラスを持つHTML要素にスタイルを適用する例です。
+
+```css
+.article {
+  color: blue; /* 文字色を青色に */
+  background-color: #f0f0f0; /* 背景色を薄いグレーに */
+  font-size: 2em; /* フォントサイズを2倍に */
+  text-align: center; /* 中央揃え */
+}
+```
+
+```html
+<div class="article">
+  <h1>記事タイトル</h1>
+  <p>記事の内容がここに入ります。</p>
+</div>
+```
+
+`class="article"`を持つHTML要素に対して、CSSでスタイルを適用しています。
+
+---
+
 ```css
 /* セレクタ { プロパティ: 値; } */
 h1 {
-  color: blue;
-  font-size: 24px;
-  text-align: center;
+  color: blue; /* 文字色を青色に */
+  font-size: 24px; /* フォントサイズの変更 */
+  text-align: center; /* 中央揃え */
 }
 
 .button {
-  background-color: #007bff;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 4px;
+  background-color: #007bff; /* 背景色 */
+  color: white; /* 文字色 */
+  padding: 10px 20px; /* 要素の間隔 */
+  border: none; /* 枠線 */
+  border-radius: 4px; /* 角丸 */
 }
 ```
 
@@ -341,34 +465,41 @@ h1 {
 
 ```css
 /* 要素セレクタ */
+/* <h1>要素に対するスタイル */
 h1 {
   color: blue;
 }
 
 /* クラスセレクタ */
+/* class="button" を持つ要素に対するスタイル */
 .button {
   background: red;
 }
 
 /* IDセレクタ */
+/* id="header" を持つ要素に対するスタイル */
 #header {
   height: 80px;
 }
 
 /* 属性セレクタ */
+/* <input type="text"> に対するスタイル */
 input[type="text"] {
   border: 1px solid gray;
 }
 
 /* 疑似クラス */
+/* <a>要素にマウスをホバーした時のスタイル */
 a:hover {
   color: red;
 }
+/* <button>要素が無効な時のスタイル */
 button:disabled {
   opacity: 0.5;
 }
 
 /* 子要素セレクタ */
+/* nav要素の直下にあるul要素 */
 nav > ul {
   list-style: none;
 }
@@ -392,16 +523,7 @@ nav > ul {
 
 ---
 
-## CSSでできること
-
-- **色・フォント** - テキストの色やフォントサイズを変更
-- **レイアウト** - 配置を横並びにするなど
-- **アニメーション** - 要素の動きをつける
-- **レスポンシブデザイン** - 画面サイズに応じてスタイルを変える
-
----
-
-## JavaScript（ES6+）
+## JavaScript
 
 **役割：** プログラミングを使ってWebページに動的な機能を追加
 
@@ -410,6 +532,9 @@ nav > ul {
 const userName = "田中";
 let counter = 0;
 
+// ログ出力
+console.log(`こんにちは、${userName}さん！`);
+
 // 関数の定義
 function greet(name) {
   return `こんにちは、${name}さん！`;
@@ -417,12 +542,6 @@ function greet(name) {
 
 // アロー関数
 const add = (a, b) => a + b;
-
-// DOM操作
-document.getElementById("button").addEventListener("click", () => {
-  counter++;
-  console.log(`クリック回数: ${counter}`);
-});
 ```
 
 ---
@@ -435,10 +554,6 @@ document.getElementById("button").addEventListener("click", () => {
 const name = "田中";
 const age = 25;
 
-// 従来の書き方
-const message1 = "私の名前は" + name + "で、" + age + "歳です。";
-
-// ES6+の書き方
 const message2 = `私の名前は${name}で、${age}歳です。`;
 ```
 
@@ -515,14 +630,338 @@ async function fetchUserData(userId) {
 }
 
 // 使用例
-fetchUserData(123).then(user => {
-  console.log(user.name);
-});
+const user = await fetchUserData(123);
+console.log(user.name);
 ```
 
 ---
 
-# 〜第三章〜　React
+# 〜第三章〜　TypeScriptの基礎
+
+---
+
+## TypeScriptとは？
+
+**JavaScript + 型システム** = より安全で開発しやすいプログラミング言語
+
+### 特徴
+
+- **静的型チェック** - コンパイル時にエラーを検出
+- **IntelliSense** - エディタでの自動補完が強力
+- **JavaScript互換** - 既存のJSコードをそのまま使用可能
+- **大規模開発に適している** - チーム開発で威力を発揮
+
+### 開発時のメリット
+
+- **エディタの支援** - 自動補完、リファクタリング
+- **早期エラー発見** - 実行前にバグを見つけられる
+- **ドキュメントとしての役割** - 型が仕様を表現
+
+---
+
+## なぜTypeScriptを使うのか？
+
+#### JavaScriptの課題
+
+```javascript
+// 実行時までエラーに気づかない
+function greet(name) {
+  return "Hello, " + name.toUpperCase(); // nameがundefinedだとエラー
+}
+
+greet(); // undefinedが渡される
+```
+
+#### TypeScriptの利点
+
+```typescript
+// コンパイル時にエラーを検出
+function greet(name: string): string {
+  return "Hello, " + name.toUpperCase();
+}
+
+greet(); // コンパイルエラー：引数が不足しています
+greet("世界"); // OK
+```
+
+---
+
+## 基本的な型
+
+```typescript
+// プリミティブ型
+let message: string = "こんにちは";
+let count: number = 42;
+let isActive: boolean = true;
+
+// 配列
+let numbers: number[] = [1, 2, 3];
+let fruits: string[] = ["りんご", "バナナ"];
+
+// オブジェクト
+let user: {
+  name: string;
+  age: number;
+  email?: string; // オプショナル（?）
+} = {
+  name: "田中",
+  age: 25,
+};
+```
+
+---
+
+## 関数の型定義
+
+```typescript
+// 関数の引数と戻り値に型を指定
+function add(a: number, b: number): number {
+  return a + b;
+}
+
+// アロー関数
+const multiply = (a: number, b: number): number => a * b;
+
+// オプショナル引数
+function greet(name: string, title?: string): string {
+  if (title) {
+    return `こんにちは、${title} ${name}さん`;
+  }
+  return `こんにちは、${name}さん`;
+}
+
+// デフォルト引数
+function createUser(name: string, age: number = 20): object {
+  return { name, age };
+}
+```
+
+---
+
+## インターフェース（Interface）
+
+**オブジェクトの形状を定義** - 再利用可能な型定義
+
+```typescript
+// インターフェースの定義
+interface User {
+  id: number;
+  name: string;
+  email: string;
+  isActive: boolean;
+  profile?: {
+    bio: string;
+    avatar: string;
+  };
+}
+
+// インターフェースを使用
+const user: User = {
+  id: 1,
+  name: "田中太郎",
+  email: "tanaka@example.com",
+  isActive: true,
+};
+
+// 関数の引数でも使用
+function updateUser(user: User): User {
+  return { ...user, isActive: true };
+}
+```
+
+---
+
+## 型エイリアス（Type Alias）
+
+```typescript
+// 基本的な型エイリアス
+type Status = "pending" | "approved" | "rejected";
+type ID = string | number;
+
+// オブジェクトの型エイリアス
+type Product = {
+  id: ID;
+  name: string;
+  price: number;
+  status: Status;
+};
+
+// 関数の型エイリアス
+type EventHandler = (event: string) => void;
+
+// 使用例
+const product: Product = {
+  id: "prod-001",
+  name: "商品A",
+  price: 1000,
+  status: "approved",
+};
+```
+
+---
+
+## Union型とLiteral型
+
+```typescript
+// Union型（複数の型のうちいずれか）
+let result: string | number;
+result = "成功"; // OK
+result = 404; // OK
+result = true; // エラー
+
+// Literal型（特定の値のみ）
+type Theme = "light" | "dark";
+type ButtonSize = "small" | "medium" | "large";
+
+function setTheme(theme: Theme) {
+  // themeは"light"または"dark"のみ
+}
+
+setTheme("light"); // OK
+setTheme("blue"); // エラー
+```
+
+---
+
+## 配列とオブジェクトの型
+
+```typescript
+// 配列の型定義
+const userIds: number[] = [1, 2, 3];
+const userNames: Array<string> = ["田中", "佐藤", "鈴木"];
+
+// オブジェクトの配列
+interface Task {
+  id: number;
+  title: string;
+  completed: boolean;
+}
+
+const tasks: Task[] = [
+  { id: 1, title: "買い物", completed: false },
+  { id: 2, title: "掃除", completed: true },
+];
+
+// Record型（キーと値の型を指定）
+const userRoles: Record<string, string> = {
+  "user1": "admin",
+  "user2": "member",
+};
+```
+
+---
+
+## ジェネリクス（Generics）
+
+**型を引数として受け取る** - 再利用可能で型安全な関数
+
+```typescript
+// 基本的なジェネリクス
+function identity<T>(arg: T): T {
+  return arg;
+}
+
+const numberResult = identity<number>(42); // number型
+const stringResult = identity<string>("hello"); // string型
+
+// 配列を扱うジェネリクス
+function getFirstElement<T>(array: T[]): T | undefined {
+  return array[0];
+}
+
+const firstNumber = getFirstElement([1, 2, 3]); // number | undefined
+const firstName = getFirstElement(["a", "b", "c"]); // string | undefined
+
+// インターフェースでのジェネリクス
+interface ApiResponse<T> {
+  data: T;
+  status: number;
+  message: string;
+}
+
+const userResponse: ApiResponse<User> = {
+  data: { id: 1, name: "田中", email: "tanaka@example.com", isActive: true },
+  status: 200,
+  message: "成功",
+};
+```
+
+---
+
+## 非同期処理の型定義
+
+```typescript
+// Promise型
+async function fetchUser(id: number): Promise<User> {
+  const response = await fetch(`/api/users/${id}`);
+  const userData: User = await response.json();
+  return userData;
+}
+
+// APIレスポンスの型定義
+interface PokemonApiResponse {
+  id: number;
+  name: string;
+  height: number;
+  weight: number;
+  sprites: {
+    front_default: string;
+  };
+  types: Array<{
+    type: {
+      name: string;
+    };
+  }>;
+}
+
+async function getPokemon(name: string): Promise<PokemonApiResponse> {
+  const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${name}`);
+  if (!response.ok) {
+    throw new Error(`Pokemon not found: ${name}`);
+  }
+  return response.json();
+}
+```
+
+---
+
+## ReactでのTypeScript
+
+```typescript
+// Propsの型定義
+interface WelcomeProps {
+  name: string;
+  age?: number;
+}
+
+const Welcome: React.FC<WelcomeProps> = ({ name, age }) => {
+  return (
+    <div>
+      <h1>こんにちは、{name}さん！</h1>
+      {age && <p>年齢: {age}歳</p>}
+    </div>
+  );
+};
+
+// useStateの型指定
+const [user, setUser] = useState<User | null>(null);
+const [loading, setLoading] = useState<boolean>(false);
+const [error, setError] = useState<string>("");
+
+// イベントハンドラーの型
+const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  event.preventDefault();
+  // フォーム処理
+};
+
+const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  setValue(event.target.value);
+};
+```
+
+---
+
+# 〜第四章〜　React
 
 ---
 
@@ -543,6 +982,41 @@ Facebook, Netflix, Airbnb, Instagram など多くのサービスで採用
 
 ---
 
+## Reactのしくみ
+
+<div class="flex">
+<div class="flex-grow border">
+
+<div class="border">
+React
+</div>
+<div class="border">
+TypeScript
+</div>
+
+</div>
+<div style="text-align: center;">
+コンパイル(変換)
+<br/>
+→→→→→→→→
+</div>
+<div class="flex-grow border">
+
+<div class="border">
+HTML
+</div>
+<div class="border">
+CSS
+</div>
+<div class="border">
+JavaScript
+</div>
+
+</div>
+</div>
+
+---
+
 ## なぜReactを使うのか？
 
 ### 従来のJavaScript開発の課題
@@ -556,61 +1030,6 @@ Facebook, Netflix, Airbnb, Instagram など多くのサービスで採用
 ✅ **宣言的UI** - 「こうなってほしい」を記述するだけ
 ✅ **自動的な画面更新** - データが変わると自動で再描画
 ✅ **コンポーネント化** - 再利用可能なパーツを作れる
-
----
-
-## 仮想DOM（Virtual DOM）
-
-### 従来のDOM操作
-
-```javascript
-// 毎回DOMを直接更新（重い処理）
-document.getElementById("counter").textContent = count;
-document.getElementById("list").innerHTML = items.map(/* ... */);
-```
-
-### Reactの仮想DOM
-
-```jsx
-// JavaScriptオブジェクトとして表現（軽い処理）
-const virtualDOM = {
-  type: "div",
-  props: { id: "counter" },
-  children: [count],
-};
-```
-
-Reactが **差分だけを効率的に更新** → **高速な画面更新**
-
----
-
-## プロジェクトの作成
-
-```bash
-# Vite（高速ビルドツール）を使用
-npm create vite@latest my-react-app -- --template react
-
-# プロジェクトディレクトリに移動
-cd my-react-app
-
-# 依存関係をインストール
-npm install
-
-# 開発サーバーを起動
-npm run dev
-```
-
-### プロジェクト構造
-
-```
-my-react-app/
-├── src/
-│   ├── App.jsx      # メインコンポーネント
-│   ├── main.jsx     # エントリーポイント
-│   └── App.css      # スタイル
-├── public/          # 静的ファイル
-└── package.json     # 設定ファイル
-```
 
 ---
 
@@ -984,6 +1403,8 @@ export function ShowApiResponse() {
 ---
 
 ## 質疑応答
+
+（もし質疑がなければ、皆さんに今日作ったものをチャットで教えてもらう）
 
 ---
 
