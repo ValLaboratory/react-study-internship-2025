@@ -6,10 +6,6 @@ size: 16:9
 ---
 
 TODO: 開発環境セットアップを入れる
-TODO: テスト問題の解説を入れる
-TODO: 講師自己紹介
-TODO: TypeScriptの基礎を入れる
-TODO: 今日描いたソースコードのDL方法
 
 株式会社ヴァル研究所
 
@@ -636,6 +632,46 @@ console.log(user.name);
 
 ---
 
+## JavaScriptによるWeb API連携の例
+
+Web APIは、HTTPを使ってデータをやり取りする仕組みです。
+
+Webページの中から、外部と通信してデータを取得したり、送信したりすることができます。
+
+```
+[ブラウザ] ----HTTP Request----> [Web APIサーバー]
+     ↑                              ↓
+     +-------HTTP Response----------+
+              (JSONデータ)
+```
+
+---
+
+## Web API連携の例
+
+事前のプログラミング課題の例
+
+```typescript
+const keyword = "サウス";
+const number = 2;
+const condition = "onsen,parking";
+// リクエストURL組み立て
+const url = new URL(
+  "https://challenge-server.tracks.run/hotel-reservation/hotels",
+);
+url.searchParams.append("keyword", keyword);
+url.searchParams.append("number", number.toString());
+url.searchParams.append("condition", condition);
+// リクエスト送信
+const response = await fetch(url, {
+  headers: { "X-ACCESS-TOKEN": "0111e7a5-de02-4703-b0cc-b01a8a65c511" },
+});
+const data = await response.json();
+console.log(data); // 結果
+```
+
+---
+
 # 〜第三章〜　TypeScriptの基礎
 
 ---
@@ -1035,6 +1071,8 @@ JavaScript
 
 ## Reactコンポーネント
 
+Reactでは、HTMLの構造を分割して使いまわせるように、「コンポーネント」を使用します。
+
 ```jsx
 // 関数コンポーネント（推奨）
 function Welcome(props) {
@@ -1065,11 +1103,9 @@ function App() {
 
 ```jsx
 const element = <h1>Hello, World!</h1>;
-
 // JavaScript式を埋め込み
 const name = "React";
 const element2 = <h1>Hello, {name}!</h1>;
-
 // 複数行の場合は()で囲む
 const element3 = (
   <div>
@@ -1079,11 +1115,14 @@ const element3 = (
 );
 ```
 
-**注意点：** `className`, `onClick` など、HTML属性名が一部異なる
+**注意点：** Reactの場合、`class`の代わりに`className`, `for`の代わりに`htmlFor` を使うなど、HTML属性名が一部異なる。
+`onClick` や `onChange` などのイベントハンドラも定義できる。
 
 ---
 
 ## useState - 状態管理
+
+**Reactでは`useState`を使って変数を宣言します**。
 
 ```jsx
 import { useState } from "react";
@@ -1092,9 +1131,7 @@ function Counter() {
   // [状態値, 更新関数] = useState(初期値)
   const [count, setCount] = useState(0);
 
-  const increment = () => {
-    setCount(count + 1);
-  };
+  const increment = () => setCount(count + 1);
 
   return (
     <div>
@@ -1153,10 +1190,10 @@ setItems(prevItems => [...prevItems, newItem]);
 ### 前の状態に基づく更新
 
 ```jsx
-// ❌ ダメな例（競合状態の可能性）
+// 直接値を指定する
 setCount(count + 1);
 
-// ✅ 正しい例（安全）
+// 以前の状態を引数で受け取ることもできる
 setCount(prevCount => prevCount + 1);
 ```
 
@@ -1180,6 +1217,10 @@ useEffect(() => {
 }, [count]); // countが変わった時のみ実行
 ```
 
+---
+
+## useEffectのパターン
+
 ### 3. クリーンアップが必要な処理
 
 ```jsx
@@ -1197,65 +1238,82 @@ useEffect(() => {
 
 ---
 
-## useEffect - 副作用処理
+## ReactからAPI連携
 
-```jsx
-import { useEffect, useState } from "react";
+Reactから外部APIを呼び出してみます。
 
-function UserProfile({ userId }) {
-  const [user, setUser] = useState(null);
-
-  // コンポーネント初回表示時 & userIdが変わった時に実行
-  useEffect(() => {
-    const fetchUser = async () => {
-      const response = await fetch(`/api/users/${userId}`);
-      const userData = await response.json();
-      setUser(userData);
-    };
-
-    fetchUser();
-  }, [userId]); // 依存配列
-
-  if (!user) return <div>読み込み中...</div>;
-
-  return <div>ユーザー名: {user.name}</div>;
-}
 ```
+[ブラウザ] ----HTTP Request----> [APIサーバー]
+     ↑                              ↓
+     +-------HTTP Response----------+
+              (JSONデータ)
+```
+
+- 利用するAPI: [PokeAPI](https://pokeapi.co/)
 
 ---
 
-## イベントハンドリング
+## ReactからAPI連携
 
-```jsx
-function ContactForm() {
-  const [email, setEmail] = useState("");
+コード例
 
-  const handleSubmit = (e) => {
-    e.preventDefault(); // デフォルト動作を防ぐ
-    console.log("送信されたメール:", email);
-  };
-
-  const handleChange = (e) => {
-    setEmail(e.target.value);
-  };
+```typescript
+export function ShowApiResponse() {
+  const [pokemon, setPokemon] = useState({
+    id: 0,
+    name: "",
+    height: 0,
+    weight: 0,
+    sprites: {
+      front_default: "",
+    },
+  });
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input
-        type="email"
-        value={email}
-        onChange={handleChange}
-        placeholder="メールアドレス"
-      />
-      <button type="submit">送信</button>
-    </form>
+    <div className="show-api-response outline-effect">
+      <h2>2. APIレスポンス取得</h2>
+      <p>APIからデータを取得し表示してみましょう。</p>
+      <button
+        onClick={async () => {
+          const pokemon = await getPokemon("eevee");
+          setPokemon(pokemon);
+        }}
+      >
+        取得
+      </button>
+      {pokemon && (
+        <div className="pokemon-info">
+          <h3>ポケモン情報</h3>
+          <p>ID: {pokemon.id}</p>
+          <p>名前: {pokemon.name}</p>
+          <p>高さ: {pokemon.height}</p>
+          <p>体重: {pokemon.weight}</p>
+          <img src={pokemon.sprites.front_default} alt={pokemon.name} />
+        </div>
+      )}
+    </div>
   );
 }
 ```
 
 ---
 
-# 〜演習問題〜 外部APIからデータを取得しReactで表示してみよう
+# 以上で講義パートは終わりです！
+
+---
+
+# 質疑応答
+
+- 質問がある方は、マイクをonにして声をかけるか、チャットで質問してください。
+- 質問内容はなんでもOK
+
+---
+
+# 休憩タイム
+
+---
+
+# 〜演習問題〜
 
 ---
 
@@ -1409,6 +1467,15 @@ export function ShowApiResponse() {
 ---
 
 # おつかれさまでした :tada:
+
+---
+
+# おまけ：今日の作業内容のダウンロード方法
+
+今回使用した作業環境は、30日で自動的に削除されます。
+もし、今日の作業内容をダウンロードしたい場合は、以下の手順で行ってください。
+
+TODO: 画像を載せる
 
 ---
 
