@@ -1,0 +1,73 @@
+name: Deploy Slides to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: |
+          npm install -g @marp-team/marp-cli
+
+      - name: Create output directory
+        run: mkdir -p dist
+
+      - name: Build HTML slides
+        run: |
+          marp slide/index.md --html --output dist/index.html
+
+      - name: Build PDF slides
+        run: |
+          marp slide/index.md --pdf --output dist/slides.pdf --allow-local-files
+
+      - name: Copy assets
+        run: |
+          # Copy any image files or other assets if they exist
+          if [ -d "slide/assets" ]; then
+            cp -r slide/assets dist/
+          fi
+          # Copy any image files from slide directory
+          find slide -name "*.png" -o -name "*.jpg" -o -name "*.jpeg" -o -name "*.gif" -o -name "*.svg" | while read file; do
+            cp "$file" dist/
+          done
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: "./dist"
+
+  deploy:
+    environment:
+      name: "github-pages"
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
