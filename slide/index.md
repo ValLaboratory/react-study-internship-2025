@@ -50,7 +50,7 @@ mixway team　鈴木 涼平
 
 ## 今日やること
 
-- 今後開催されるインターンシップに向けて、Webプログラミング(React + TypeScript)の基礎を学ぶ
+今後開催されるインターンシップに向けて、Webプログラミング(React + TypeScript)の基礎を学びます。
 
 - 17時台 ・・・ 講義メイン
 
@@ -59,8 +59,7 @@ mixway team　鈴木 涼平
   - **第三章** - TypeScriptの基礎
   - **第四章** - React
 
-- 17:45〜 質疑応答
-- 17:55〜 休憩
+- 17:45〜 質疑応答 + 休憩
 - 18:05〜 ・・・ 演習問題
 
   - 手を動かして実際にReactでWebサイトを作ってみましょう！
@@ -1382,7 +1381,9 @@ export function ShowApiResponse() {
 
 - 編集対象：`src/components/Counter.tsx`
 
-TODO: 画像を載せる
+実装イメージ
+
+![w:600](./counter.gif)
 
 ---
 
@@ -1418,7 +1419,7 @@ export function Counter() {
 - 編集対象：`src/components/ShowApiResponse.tsx`
 - PokeAPI公式ドキュメント: [PokeAPI Documentation](https://pokeapi.co/docs/v2)
 
-TODO: 画像を載せる
+![w:300](./api-request.gif)
 
 ---
 
@@ -1478,6 +1479,8 @@ export function ShowApiResponse() {
 5. **ポケモンクイズ**: ランダムポケモンの情報を表示 → 4択クイズ形式で答える
 6. **その他、自由なアイデアで実装**: 他のAPIを使ってみてもいいです
 
+**実装の際は、課題2で利用した`ShowApiResponse`コンポーネントを書き換えて実装してみてください**。
+
 ---
 
 ## 課題1〜3を実装してみましょう！
@@ -1514,7 +1517,26 @@ export function ShowApiResponse() {
 今回使用した作業環境は、30日で自動的に削除されます。
 もし、今日の作業内容をダウンロードしたい場合は、以下の手順で行ってください。
 
-TODO: 画像を載せる
+1. 左側のフォルダ一覧の適当な場所をクリック
+1. `ctrl + A`で全ファイルを選択
+1. 右クリック → `Download`を選択
+
+![w:200](image.png)
+
+---
+
+# おまけ：今日の演習内容をローカルで実行する方法
+
+以下の手順で実行できます。
+
+- https://nodejs.org/ja からNode.jsをインストール
+- `cd <ダウンロード先パス名>`で対象ディレクトリに移動
+- `npm install`コマンドでライブラリをインストール
+- `npm run dev`コマンドで起動
+
+この状態で`localhost:3000`にアクセスすると、今日の演習内容が表示されます。
+
+停止するときは`ctrl + c`で停止できます。
 
 ---
 
