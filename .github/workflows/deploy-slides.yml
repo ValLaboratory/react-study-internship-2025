@@ -36,11 +36,11 @@ jobs:
 
       - name: Build HTML slides
         run: |
-          marp slide/index.md --html --output dist/index.html
+          marp slide/index.md --html --output dist/index.html --theme slide/themes/mytheme.css
 
       - name: Build PDF slides
         run: |
-          marp slide/index.md --pdf --output dist/slides.pdf --allow-local-files
+          marp slide/index.md --pdf --output dist/slides.pdf --allow-local-files --theme slide/themes/mytheme.css
 
       - name: Copy assets
         run: |
