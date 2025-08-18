@@ -44,7 +44,7 @@ mixway team　鈴木 涼平
 
 ---
 
-# 本日の勉強会の内容について
+# 本日の勉強会の内容について（8/6）
 
 ---
 
@@ -63,6 +63,13 @@ mixway team　鈴木 涼平
 - 18:05〜 ・・・ 演習問題
 
   - 手を動かして実際にReactでWebサイトを作ってみましょう！
+
+---
+
+## 対象読者
+
+- 2025年8月6日株式会社ヴァル研究所インターンシップ参加者
+- はじめてWeb開発に触れる方
 
 ---
 
@@ -649,20 +656,15 @@ Webページの中から、外部と通信してデータを取得したり、�
 事前のプログラミング課題の例
 
 ```typescript
-const keyword = "サウス";
-const number = 2;
-const condition = "onsen,parking";
+const API_KEY = "...";
+
 // リクエストURL組み立て
 const url = new URL(
-  "https://challenge-server.tracks.run/hotel-reservation/hotels",
+  "https://api.ekispert.jp/v1/json/station/light",
 );
-url.searchParams.append("keyword", keyword);
-url.searchParams.append("number", number.toString());
-url.searchParams.append("condition", condition);
+url.searchParams.append("key", API_KEY);
 // リクエスト送信
-const response = await fetch(url, {
-  headers: { "X-ACCESS-TOKEN": "0111e7a5-de02-4703-b0cc-b01a8a65c511" },
-});
+const response = await fetch(url);
 const data = await response.json();
 console.log(data); // 結果
 ```
@@ -965,72 +967,17 @@ const userResponse: ApiResponse<User> = {
 ## 非同期処理の型定義
 
 ```typescript
-// Promise型
+interface User {
+  id: string;
+  name: string;
+}
+
+// 戻り値にPromise<T>型を利用する
 async function fetchUser(id: number): Promise<User> {
   const response = await fetch(`/api/users/${id}`);
   const userData: User = await response.json();
   return userData;
 }
-
-// APIレスポンスの型定義
-interface PokemonApiResponse {
-  id: number;
-  name: string;
-  height: number;
-  weight: number;
-  sprites: {
-    front_default: string;
-  };
-  types: Array<{
-    type: {
-      name: string;
-    };
-  }>;
-}
-
-async function getPokemon(name: string): Promise<PokemonApiResponse> {
-  const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${name}`);
-  if (!response.ok) {
-    throw new Error(`Pokemon not found: ${name}`);
-  }
-  return response.json();
-}
-```
-
----
-
-## ReactでのTypeScript
-
-```typescript
-// Propsの型定義
-interface WelcomeProps {
-  name: string;
-  age?: number;
-}
-
-const Welcome: React.FC<WelcomeProps> = ({ name, age }) => {
-  return (
-    <div>
-      <h1>こんにちは、{name}さん！</h1>
-      {age && <p>年齢: {age}歳</p>}
-    </div>
-  );
-};
-
-// useStateの型指定
-const [user, setUser] = useState<User | null>(null);
-const [loading, setLoading] = useState<boolean>(false);
-const [error, setError] = useState<string>("");
-
-// イベントハンドラーの型
-const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-  event.preventDefault();
-  // フォーム処理
-};
-
-const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  setValue(event.target.value);
-};
 ```
 
 ---
@@ -1049,10 +996,6 @@ const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 - **宣言的** - 「どうなってほしいか」を記述
 - **仮想DOM** - 高速な画面更新
 - **豊富なエコシステム** - ツール・ライブラリが充実
-
-### 使用例
-
-Facebook, Netflix, Airbnb, Instagram など多くのサービスで採用
 
 ---
 
@@ -1287,7 +1230,11 @@ Reactから外部APIを呼び出してみます。
               (JSONデータ)
 ```
 
-- 利用するAPI: [PokeAPI](https://pokeapi.co/)
+外部APIの例:
+
+- [公共交通オープンデータ](https://www.odpt.org/)
+- [PokeAPI](https://pokeapi.co/)
+- [天気予報API](https://weather.tsukumijima.net/)
 
 ---
 
@@ -1297,15 +1244,7 @@ Reactから外部APIを呼び出してみます。
 
 ```typescript
 export function ShowApiResponse() {
-  const [pokemon, setPokemon] = useState({
-    id: 0,
-    name: "",
-    height: 0,
-    weight: 0,
-    sprites: {
-      front_default: "",
-    },
-  });
+  const [data, setData] = useState(null);
 
   return (
     <div className="show-api-response outline-effect">
@@ -1313,21 +1252,17 @@ export function ShowApiResponse() {
       <p>APIからデータを取得し表示してみましょう。</p>
       <button
         onClick={async () => {
-          const pokemon = await getPokemon("eevee");
-          setPokemon(pokemon);
+          const response = await fetch("path/to/url");
+          const data = await response.json();
+          setData(data);
         }}
       >
         取得
       </button>
-      {pokemon && (
-        <div className="pokemon-info">
-          <h3>ポケモン情報</h3>
-          <p>ID: {pokemon.id}</p>
-          <p>名前: {pokemon.name}</p>
-          <p>高さ: {pokemon.height}</p>
-          <p>体重: {pokemon.weight}</p>
-          <img src={pokemon.sprites.front_default} alt={pokemon.name} />
-        </div>
+      {data && (
+        <pre>
+          {JSON.stringify(data, null, 2)}
+        </pre>
       )}
     </div>
   );
@@ -1369,7 +1304,7 @@ export function ShowApiResponse() {
 - clickイベントを使ったAPI連携
 - 非同期処理の理解
 
-### 【課題3】ポケモンAPI を使って自由にアプリを作ってみよう
+### 【課題3】外部API連携とユーザー入力を組み合わせてみよう
 
 - より実践的なAPI活用
 
@@ -1414,10 +1349,15 @@ export function Counter() {
 
 ## 課題2: 外部API連携
 
-[PokeAPI](https://pokeapi.co/)を使って、ポケモンの情報を取得して表示してみましょう。
+好きな外部APIを使って、データを取得して表示してみましょう。
 
-- 編集対象：`src/components/ShowApiResponse.tsx`
-- PokeAPI公式ドキュメント: [PokeAPI Documentation](https://pokeapi.co/docs/v2)
+外部APIの例:
+
+- [公共交通オープンデータ](https://www.odpt.org/)
+- [PokeAPI](https://pokeapi.co/)
+- [天気予報API](https://weather.tsukumijima.net/)
+
+編集対象：`src/components/ShowApiResponse.tsx`
 
 ![w:300](./api-request.gif)
 
@@ -1427,16 +1367,8 @@ export function Counter() {
 
 ```jsx
 export function ShowApiResponse() {
-  // 変数`pokemon`の定義にuseStateを使うように変更してみましょう
-  const pokemon = {
-    id: 0,
-    name: "",
-    height: 0,
-    weight: 0,
-    sprites: {
-      front_default: "",
-    },
-  };
+  // 変数`data`の定義にuseStateを使うように変更してみましょう
+  const data = null;
 
   return (
     <div className="show-api-response outline-effect">
@@ -1444,20 +1376,15 @@ export function ShowApiResponse() {
       <p>APIからデータを取得し表示してみましょう。</p>
       <button
         onClick={async () => {
-          // getPokemon()関数またはgetRandomPokemon()関数を使い、APIからデータを取得し表示してみましょう。
+          // fetch()関数を使い、APIからデータを取得し表示してみましょう。
         }}
       >
         取得
       </button>
-      {pokemon && (
-        <div className="pokemon-info">
-          <h3>ポケモン情報</h3>
-          <p>ID: {pokemon.id}</p>
-          <p>名前: {pokemon.name}</p>
-          <p>高さ: {pokemon.height}</p>
-          <p>体重: {pokemon.weight}</p>
-          <img src={pokemon.sprites.front_default} alt={pokemon.name} />
-        </div>
+      {data && (
+        <pre>
+          {JSON.stringify(data, null, 2)}
+        </pre>
       )}
     </div>
   );
@@ -1466,18 +1393,16 @@ export function ShowApiResponse() {
 
 ---
 
-## 課題3: ポケモンAPIアプリ
+## 課題3: 外部API連携とユーザー入力を組み合わせてみよう
 
-**PokeAPI** を使用: `https://pokeapi.co/api/v2/pokemon/{id}`
+- 外部APIを使って、自由なアプリケーションを作成してみましょう。
 
 ### お題
 
-1. **ポケモン進化情報表示**: ポケモンの進化先を表示
-2. **好きなポケモンアンケート**: ポケモン一覧表示 → 投票機能
-3. **ポケモンバトルゲーム**: ランダム2体選出 → 能力値比較
-4. **ポケモンおみくじ**: ランダムポケモン表示 → 今日の運勢
-5. **ポケモンクイズ**: ランダムポケモンの情報を表示 → 4択クイズ形式で答える
-6. **その他、自由なアイデアで実装**: 他のAPIを使ってみてもいいです
+1. **アンケート**: APIデータ取得 → 投票機能
+1. **おみくじ**: APIから取得したデータをランダム表示 → 今日の運勢
+1. **クイズ**: APIから取得したデータで情報を表示 → 4択クイズ形式で答える
+1. **その他、自由なアイデアで実装**: 他のAPIを使ってみてもいいです
 
 **実装の際は、課題2で利用した`ShowApiResponse`コンポーネントを書き換えて実装してみてください**。
 
